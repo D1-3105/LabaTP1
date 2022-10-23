@@ -1,1 +1,1 @@
-<source lang="xml"><ship><length>250</length><crew>25</crew></ship></source>
+<source lang="xml"><sailboat><length>250</length><crew>150</crew><type>0</type><war_machine>0</war_machine><velocity>33</velocity></sailboat></source>

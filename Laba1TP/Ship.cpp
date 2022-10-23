@@ -34,6 +34,7 @@ void Ship::readXMLInfo()
 		this->extractClassFromFields(key_tag[this->tag]["value"]);
 	}
 	catch (std::exception e) {
+		std::cout << e.what() <<std::endl;
 		throw e;
 	}
 }
@@ -42,16 +43,25 @@ void Ship::readTXTInfo()
 {
 	this->checkFileExtension("txt", this->inp_fp);
 	if ((*input_file_stream).is_open()) {
-		*input_file_stream >> meterLength;
-		*input_file_stream >> crewCount;
+		this->makeFieldsFromTXT();
+		this->input_file_stream->close();
 	}
 }
 
-void Ship::extractClassFromFields(std::string& value)
+xml::tag Ship::extractClassFromFields(std::string& value)
 {
-	xml::attributes map_values= xml::XMLReader::extractFinalValues(value);
-	this->crewCount = std::stoi(map_values["crew"]);
-	this->meterLength = std::stof(map_values["length"]);
+	xml::tag map_values= xml::XMLReader::extractFinalValues(value);
+	this->crewCount = std::stoi(map_values["crew"]["value"]);
+	map_values.erase("crew");
+	this->meterLength = std::stof(map_values["length"]["value"]);
+	map_values.erase("length");
+	return map_values;
+}
+
+void Ship::makeFieldsFromTXT()
+{
+	*input_file_stream >> meterLength;
+	*input_file_stream >> crewCount;
 }
 
 void Ship::setOutputFilePath(std::string fp) {
@@ -84,10 +94,7 @@ void Ship::writeXMLInfo()
 {
 	this->checkFileExtension("xml", this->out_fp);
 	xml::XMLWriter writer(*this->output_file_stream);
-	writer.makeInitializeOutput();
-	writer.makeNewTag("ship", "", false);
-	writer.makeNewTag("length", this->meterLength, false, xml::attributes(), true);
-	writer.makeNewTag("crew", this->crewCount, false, xml::attributes(), true);
+	this->makeTags(writer);
 	if (this->output_file_stream->is_open()) {
 		writer.make_output();
 		this->output_file_stream->close();
@@ -103,7 +110,7 @@ short Ship::getCrewCount()
 void Ship::writeTXTInfo() {
 	this->checkFileExtension("txt", this->out_fp);
 	if (this->output_file_stream->is_open()) {
-		*output_file_stream << this->meterLength << " " << crewCount;
+		formTXTData();
 		this->output_file_stream->close();
 	}
 
@@ -122,4 +129,17 @@ double Ship::getMeterLength()
 void Ship::setMeterLength(double ml)
 {
 	meterLength = ml;
+}
+
+void Ship::formTXTData()
+{
+	*output_file_stream << this->meterLength << " " << crewCount << " ";
+}
+
+void Ship::makeTags(xml::XMLWriter& writer)
+{
+	writer.makeInitializeOutput();
+	writer.makeNewTag(tag, "", false);
+	writer.makeNewTag("length", this->meterLength, false, xml::attributes(), true);
+	writer.makeNewTag("crew", this->crewCount, false, xml::attributes(), true);
 }

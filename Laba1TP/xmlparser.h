@@ -82,7 +82,7 @@ namespace xml {
 		std::ifstream* is;
 		int pos;
 	public:
-		static std::map<std::string, std::string> extractFinalValues(std::string& boxed_value);
+		static xml::tag extractFinalValues(std::string& boxed_value);
 		XMLReader(std::ifstream& is_) : is{ &is_ }, pos(0) {};
 		XMLReader(std::string& inputFilePath);
 		std::string readInitializeInput();

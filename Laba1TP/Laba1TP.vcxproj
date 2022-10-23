@@ -141,12 +141,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SailBoat.cpp" />
     <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="Submarine.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="xmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SailBoat.h" />
     <ClInclude Include="ShipTypes.h" />
+    <ClInclude Include="Submarine.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="xmlparser.h" />
     <ClInclude Include="Ship.h" />

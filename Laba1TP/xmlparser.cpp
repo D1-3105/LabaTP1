@@ -48,7 +48,7 @@ std::map<std::string, std::string> xml::XMLReader::convertStringParameters(std::
 	 std::map<std::string, std::string> mapped;
 	 mapped["attributes"] = attrs;
 	 mapped["value"] = value;
-	 std::regex base_tag_regex("<(\\w+)(\\s+\\w+=\".*\")*\\s*>(.*)<\/\\w+>");
+	 std::regex base_tag_regex("<(\\w+)([^>]*)*\\s*>(.*)<\/\\w+>");
 	 std::regex advanced_tag_regex("<\\w+(\\s+\\w+=\".+\"\\s*)*/>");
 	 auto re_check = [&value](std::regex& re) ->bool { return std::regex_search(value, re); }; // for better reading
 	 if (requiresCheck and
@@ -88,7 +88,7 @@ xml::tag xml::XMLReader::readCurrentTag(std::string level)
 	std::stringstream tmp_string;
 	std::regex_replace(std::ostream_iterator<char>(tmp_string), level.begin(), level.end(), std::regex("[\t\n]"), "");
 	level = tmp_string.str();
-	std::regex base_tag_regex("<(\\w+)(\\s+\\w+=\".*\")*\\s*>(.*)<\/\\w+>"); 
+	std::regex base_tag_regex("<(\\w+)(\\s+\\w+=\".+\")*>(.*)<\/\\w+>"); 
 
 	// <ship crew="22" len="230.00"><ship>123</ship></ship>
 	// entire input matched = 0 group
@@ -118,20 +118,22 @@ xml::tag xml::XMLReader::readCurrentTag(std::string level)
 	return level_deserialized;
 }
 
-std::map<std::string, std::string> xml::XMLReader::extractFinalValues(std::string& boxed_value)
+xml::tag xml::XMLReader::extractFinalValues(std::string& boxed_value)
 {
-	std::regex value_regex("<(\\w+)\\s*>([^<]*)<\/\\w+>");
+	std::regex value_regex("<(\\w+)(\\s+\\w+=\".*\")*>([^<]*)<\/\\w+>");
 
 	// 0 - full match
 	// 1 - tag name
-	// 2 - value
+	// 2 - attributes
+	// 3 - value
 
-	xml::attributes values_map;
+	xml::tag values_map;
 
 	std::smatch values;
 	for (std::sregex_iterator i = std::sregex_iterator(boxed_value.begin(), boxed_value.end(), value_regex);i != std::sregex_iterator();++i) {
 		values = *i;
-		values_map[values[1]] = values[2].str();
+		values_map[values[1]]["attributes"] = values[2].str();
+		values_map[values[1]]["value"] = values[3].str();
 	}
 	return values_map;
 }
