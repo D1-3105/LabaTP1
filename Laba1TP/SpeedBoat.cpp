@@ -3,13 +3,21 @@
 void SpeedBoat::makeFieldsFromTXT()
 {
 	Ship::makeFieldsFromTXT();
+	std::string _;
+	std::getline((*input_file_stream), _);
 	std::getline(*input_file_stream,purpose);
 	*input_file_stream >> materials_count;
 	materials = new std::string[materials_count];
+	std::getline((*input_file_stream), _);
 	for (int i = 0; i < materials_count; i++) {
 		std::getline((*input_file_stream), materials[i]);
+		
 	}
 	*input_file_stream >> chars_count;
+
+	characteristics = new std::string[chars_count];
+
+	std::getline((*input_file_stream), _);
 	for (int i = 0; i < chars_count; i++) {
 		std::getline((*input_file_stream), characteristics[i]);
 	}

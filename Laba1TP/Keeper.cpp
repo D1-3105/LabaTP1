@@ -37,7 +37,8 @@ void Keeper::GeneralValidation(int choice, tortuga::UsualShip& object)
 			object.writeTXTInfo();
 		}
 		else {
-			throw "Invalid file extension!";
+			print("Invalid file extension!");
+			system("pause");
 		}
 		print("Completed.");
 		break;
@@ -52,7 +53,7 @@ void Keeper::GeneralValidation(int choice, tortuga::UsualShip& object)
 		}
 		else {
 			print("Invalid file extension!");
-			break;
+			system("pause");
 		}
 		break;
 	}
@@ -77,6 +78,12 @@ void Keeper::GeneralValidation(int choice, tortuga::UsualShip& object)
 	}
 }
 
+void Keeper::ShowShipData(tortuga::UsualShip& object)
+{
+	print("\tCrew: " + std::to_string(object.getCrewCount()));
+	print("\tLength: " + std::to_string(object.getMeterLength()));
+}
+
 std::string Keeper::ChooseFormat(std::string fp)
 {
 	if (Ship::checkFileExtension("xml", fp, false)) {
@@ -85,6 +92,7 @@ std::string Keeper::ChooseFormat(std::string fp)
 	if (Ship::checkFileExtension("txt", fp, false)) {
 		return "txt";
 	}
+	return "";
 }
 
 int Keeper::menuSailType()
@@ -102,7 +110,7 @@ int Keeper::menuSailType()
 
 void Keeper::validateSailType(int choice, tortuga::Sail& sail)
 {
-	sail.setType(choice);
+	sail.setType(choice-1);
 }
 
 void Keeper::Menu()
@@ -231,8 +239,7 @@ void Keeper::SubmarineValidation(int choice, tortuga::Sub& submarine)
 		break;
 	case 6:
 		print("Submarine data:");
-		print("\tCrew: " + std::to_string(submarine.getCrewCount()));
-		print("\tLength: " + std::to_string(submarine.getMeterLength()));
+		ShowShipData(submarine);
 		print("\tWidth: " + std::to_string(submarine.getWidth()));
 		print("\tUnderwater time: " + std::to_string(submarine.getUnderwaterTime()));
 		print("\tMax velocity: " + std::to_string(submarine.getMaxVelocity()));
@@ -252,6 +259,7 @@ int Keeper::SailMenu(int start_index)
 	print(std::to_string(start_index++) + ". Set velocity");
 	print(std::to_string(start_index++) + ". War/Civil");
 	print(std::to_string(start_index++) + ". Delete");
+	print(std::to_string(start_index++) + ". Show data");
 	int choice;
 	std::cin >> choice;
 	return choice;
@@ -259,26 +267,39 @@ int Keeper::SailMenu(int start_index)
 
 void Keeper::SailValidation(int choice, tortuga::Sail& sail)
 {
+	system("cls");
 	switch (choice) {
 	case 1: {
 		int res = menuSailType();
 		validateSailType(res, sail);
+		break;
 	}
 	case 2: {
 		int v;
 		print("Enter the velocity: ", false);
 		std::cin >> v;
 		sail.setVelocity(v);
+		break;
 	}
 	case 3: {
 		print("1 = War, 0 = Civil");
 		int war;
 		std::cin >> war;
 		sail.setWarmachine(war);
+		break;
 	}
 	case 4: {
 		delete this->sail;
 		this->sail = new tortuga::Sail();
+		system("pause");
+		break;
+	}
+	case 5: {
+		print("Sail data:");
+		ShowShipData(sail);
+		print("\tSail type:" + sail.StringifyType());
+		print("\tWarmachine: " + std::to_string(sail.getWarmachine()));
+		print("\tVelocity: " + std::to_string(sail.getVelocity()));
 		system("pause");
 		break;
 	}
@@ -307,6 +328,7 @@ void Keeper::BoatValidation(int choice, tortuga::Boat& boat)
 	case 1: {
 		print("Enter the purpose:");
 		std::string purpose;
+		std::cin.ignore();
 		std::getline(std::cin, purpose);
 		boat.setPurpose(purpose);
 		break;
@@ -316,9 +338,13 @@ void Keeper::BoatValidation(int choice, tortuga::Boat& boat)
 		size_t count;
 		std::cin >> count;
 		std::string* materials = new std::string[count];
+
+		std::string _;
+		std::getline(std::cin, _);
+
 		for (size_t i = 0; i < count; i++) {
 			print("Enter the material:");
-			std::cin >> materials [i] ;
+			std::getline(std::cin, materials[i]);
 		}
 		boat.setMaterials(materials, count);
 		break;
@@ -328,9 +354,12 @@ void Keeper::BoatValidation(int choice, tortuga::Boat& boat)
 		size_t count;
 		std::cin >> count;
 		std::string* chars = new std::string[count];
+		std::string _;
+		std::getline(std::cin, _);
 		for (size_t i = 0; i < count; i++) {
-			print("Enter the material:");
-			std::cin >> chars[i];
+			print("Enter the characteristic: ");
+			
+			std::getline(std::cin, chars[i]);
 		}
 		boat.setCharacteristics(chars, count);
 		break;
@@ -340,6 +369,7 @@ void Keeper::BoatValidation(int choice, tortuga::Boat& boat)
 		print("Enter the velocity: ", false);
 		std::cin >> v;
 		boat.setVelocity(v);
+		break;
 	}
 	case 5: {
 		delete this->boat;
@@ -348,6 +378,13 @@ void Keeper::BoatValidation(int choice, tortuga::Boat& boat)
 		break;
 	}
 	case 6: {
+		print("Speed boat data:");
+		ShowShipData(boat);
+		print("\tSpeed boat purpose:" + boat.getPurpose());
+		print("\tSpeed boat materials: " + boat.StringifyMaterials());
+		print("\tSpeed boat chars: " + boat.StringifyCharacteristics());
+		print("\tSpeed boat velocity: " + std::to_string(boat.getVelocity()));
+		system("pause");
 		break;
 	}
 	default:

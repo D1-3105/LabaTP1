@@ -1,1 +1,1 @@
-<source lang="xml"><submarine><length>330</length><crew>22</crew><width>22</width><underwater_time>330</underwater_time><max_velocity>30</max_velocity><weapons_count>2</weapons_count><weapon0>Topol-M</weapon0><weapon1>Topol-B</weapon1></submarine></source>
+<source lang="xml"><sailboat><length>2</length><crew>3</crew><type>0</type><war_machine>1</war_machine><velocity>33</velocity></sailboat></source>

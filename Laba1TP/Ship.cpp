@@ -153,7 +153,7 @@ void Ship::setMeterLength(double ml)
 
 void Ship::formTXTData()
 {
-	*output_file_stream << this->meterLength << " " << crewCount << " ";
+	*output_file_stream << this->meterLength << " " << crewCount << "\n";
 }
 
 void Ship::makeTags(xml::XMLWriter& writer)

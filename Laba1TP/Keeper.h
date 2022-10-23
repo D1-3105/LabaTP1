@@ -9,6 +9,7 @@ protected:
 	void BoatValidation(int choice, tortuga::Boat& boat);
 	
 	void GeneralValidation(int choice, tortuga::UsualShip& object);
+	void ShowShipData(tortuga::UsualShip& object);
 
 	std::string ChooseFormat(std::string fp);
 private:

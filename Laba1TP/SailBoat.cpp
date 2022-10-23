@@ -1,4 +1,20 @@
 #include "SailBoat.h"
+
+std::string SailBoat::StringifyType() {
+	switch (type) {
+	case SailBoat::Types::Frigate:
+		return "Frigate";
+	case SailBoat::Types::Brig:
+		return "Brig";
+	case SailBoat::Types::Bark:
+		return "Bark";
+	case SailBoat::Types::Jol:
+		return "Jol";
+	case SailBoat::Types::undefined:
+		return "Undefined";
+	}
+}
+
 void SailBoat::setType(int t)
 {
 	switch (t) {
