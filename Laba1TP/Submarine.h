@@ -28,7 +28,7 @@ public:
 		width = sub_copy.width;
 		underwater_time = sub_copy.underwater_time;
 		max_velocity = sub_copy.max_velocity;
-		this->setWeapons(sub_copy.weapons, sub_copy.weapons_count);
+		setWeapons(sub_copy.weapons, sub_copy.weapons_count);
 		std::cout << "THEN SUBMARINE WAS FORMED"<< std::endl;
 		tag = "submarine";
 	};

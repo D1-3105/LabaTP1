@@ -16,11 +16,15 @@ protected:
 	virtual void formTXTData();
 	virtual void makeTags(xml::XMLWriter& writer);
 	virtual xml::tag extractClassFromFields(std::string& value);
+	template <class T>
+	std::string Stringify(const T* array_param, size_t len);
+
+	template<class T>
+	T* readXMLarray(std::string tag_prefix, xml::tag& values_map, size_t length);
 private:
 	std::string inp_fp;
 	std::string out_fp;
 	short crewCount;
-
 	virtual xml::tag makePrimaryTag(std::string input, xml::tag& xml_data, xml::XMLReader& reader);
 public:
 	Ship() : meterLength(0.0), crewCount(0), input_file_stream(nullptr), output_file_stream(nullptr), inp_fp(""), tag("ship") {
@@ -54,8 +58,31 @@ public:
 	virtual void readXMLInfo();
 	virtual void readTXTInfo();
 	virtual void setCrewCount(short& crewCount);
-	short getCrewCount();
+	virtual short getCrewCount();
 	virtual void setCrewCount(short crew);
 	double getMeterLength();
 	virtual void setMeterLength(double ml);
 };
+
+
+
+template<class T>
+T* Ship::readXMLarray(std::string tag_prefix, xml::tag& values_map, size_t length)
+{
+	T* on_ret = new T[length];
+	std::smatch res;
+	for (int i = 0; i < length; i++) {
+		on_ret[i] = values_map[tag_prefix + std::to_string(i)]["value"];
+	}
+	return on_ret;
+};
+
+template <class T>
+std::string Ship::Stringify(const T* array_param, size_t len)
+{
+	std::stringstream param_stringstream;
+	for (size_t i = 0; i < len; i++) {
+		param_stringstream << array_param[i] << ";";
+	}
+	return param_stringstream.str();
+}

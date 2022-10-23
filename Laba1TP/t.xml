@@ -1,1 +1,14 @@
-<source lang="xml"><sailboat><length>250</length><crew>150</crew><type>0</type><war_machine>0</war_machine><velocity>33</velocity></sailboat></source>
+<source lang="xml">
+	<sailboat>
+		<length>250</length>
+		<crew>150</crew>
+		<purpose>swimming</purpose>
+		<materials_count>2</materials_count>
+		<material0>shit</material0>
+		<material1>cum</material1>
+		<chars_count>2</chars_count>
+		<char0>fast and interesting</char0>
+		<char1>big</char1>
+		<velocity>33</velocity>
+	</sailboat>
+</source>

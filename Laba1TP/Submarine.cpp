@@ -15,9 +15,9 @@ void Submarine::makeTags(xml::XMLWriter& writer)
 void Submarine::formTXTData()
 {
 	Ship::formTXTData();
-	*output_file_stream << width << " " << underwater_time << " " << max_velocity << " " << weapons_count << " ";
+	*output_file_stream << width << " " << underwater_time << " " << max_velocity << " " << weapons_count << "\n";
 	for (int i = 0; i < weapons_count; i++)
-		*output_file_stream << weapons[i] << " ";
+		*output_file_stream << weapons[i] << "\n";
 }
 
 void Submarine::makeFieldsFromTXT()
@@ -29,7 +29,7 @@ void Submarine::makeFieldsFromTXT()
 	*input_file_stream >> weapons_count;
 	weapons = new std::string[weapons_count];
 	for (size_t i = 0; i < weapons_count; i++) {
-		*input_file_stream >> weapons[i];
+		std::getline(*input_file_stream, weapons[i]);
 	}
 }
 
@@ -44,16 +44,7 @@ xml::tag Submarine::extractClassFromFields(std::string& value)
 	values_map.erase("max_velocity");
 	weapons_count = std::stoi(values_map["weapons_count"]["value"]);
 	values_map.erase("weapons_count");
-	weapons = new std::string[weapons_count];
-	std::regex weapon_regex("weapon(\\d*)");
-	std::smatch res;
-	for (auto& [k, v] : values_map) {
-		if (std::regex_match(k, res,weapon_regex)) {
-			size_t num = std::stoi(res[1].str());
-			weapons[num] = v["value"];
-			//values_map.erase(k);
-		}
-	}
+	weapons = Ship::readXMLarray<std::string>("weapon", values_map, weapons_count);
 	return values_map;
 }
 
@@ -95,10 +86,6 @@ std::tuple<std::string*, size_t> Submarine::getWeapons()
 
 std::string Submarine::StringifyWeapons()
 {
-	std::stringstream weapons_stringstream;
-	for (size_t i = 0; i < weapons_count; i++) {
-		weapons_stringstream << weapons[i] << ";";
-	}
-	return weapons_stringstream.str();
+	return Ship::Stringify(weapons, weapons_count);
 }
 

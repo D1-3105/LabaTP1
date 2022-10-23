@@ -107,14 +107,21 @@ xml::tag xml::XMLReader::readCurrentTag(std::string level)
 	xml::tag level_deserialized;
 	//
 	std::smatch sm_tags;
-	for (std::sregex_iterator i = std::sregex_iterator(level.begin(), level.end(), multiple_tag_regex);
-		i != std::sregex_iterator();
-		++i) { // iter through multiple regex conciedences
-		sm_tags = *i;
-		std::string cur_tag= sm_tags.str();
-		auto tmp = this->readBranchTag(cur_tag, base_tag_regex, advanced_tag_regex);
-		level_deserialized.insert(tmp.begin(), tmp.end());
+	try {
+		for (std::sregex_iterator i = std::sregex_iterator(level.begin(), level.end(), multiple_tag_regex);
+			i != std::sregex_iterator();
+			++i) { // iter through multiple regex conciedences
+			sm_tags = *i;
+			std::string cur_tag = sm_tags.str();
+			auto tmp = this->readBranchTag(cur_tag, base_tag_regex, advanced_tag_regex);
+			level_deserialized.insert(tmp.begin(), tmp.end());
+		}
 	}
+	catch(std::exception e) {
+		std::cout << e.what() <<std::endl;
+		throw e;
+	}
+	
 	return level_deserialized;
 }
 

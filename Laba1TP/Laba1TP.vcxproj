@@ -143,6 +143,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SailBoat.cpp" />
     <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="SpeedBoat.cpp" />
     <ClCompile Include="Submarine.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="xmlparser.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="SailBoat.h" />
     <ClInclude Include="ShipTypes.h" />
+    <ClInclude Include="SpeedBoat.h" />
     <ClInclude Include="Submarine.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="xmlparser.h" />

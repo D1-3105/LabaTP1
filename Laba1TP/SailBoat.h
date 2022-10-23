@@ -43,5 +43,4 @@ public:
 	double getVelocity();
 	void setWarmachine(bool wm);
 	bool getWarmachine();
-
 };
