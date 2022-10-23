@@ -35,6 +35,8 @@ public:
 		tag = "sailboat";
 	};
 
+	bool isWritable() override;
+
 	void setMaterials(std::string* mat, size_t len);
 	std::tuple<std::string*, size_t> getMaterials();
 	void setCharacteristics(std::string* chars, size_t len);

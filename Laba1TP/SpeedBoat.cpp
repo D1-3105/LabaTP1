@@ -68,6 +68,12 @@ void SpeedBoat::setMaterials(std::string* mat, size_t len)
 	}
 }
 
+bool SpeedBoat::isWritable()
+{
+	if(not Ship::isWritable() or materials_count == 0 or chars_count == 0)
+		return false;
+}
+
 std::tuple<std::string*, size_t> SpeedBoat::getMaterials()
 {
 	return std::tuple<std::string*, size_t>(materials, materials_count);

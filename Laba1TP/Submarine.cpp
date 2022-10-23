@@ -29,7 +29,7 @@ void Submarine::makeFieldsFromTXT()
 	*input_file_stream >> weapons_count;
 	weapons = new std::string[weapons_count];
 	for (size_t i = 0; i < weapons_count; i++) {
-		std::getline(*input_file_stream, weapons[i]);
+		(*input_file_stream) >> weapons[i];
 	}
 }
 
@@ -46,6 +46,22 @@ xml::tag Submarine::extractClassFromFields(std::string& value)
 	values_map.erase("weapons_count");
 	weapons = Ship::readXMLarray<std::string>("weapon", values_map, weapons_count);
 	return values_map;
+}
+
+bool Submarine::isWritable()
+{
+	if(weapons_count == 0 or not Ship::isWritable())
+		return false;
+}
+
+void Submarine::setWidth(double w)
+{
+	width = w;
+}
+
+double Submarine::getWidth()
+{
+	return width;
 }
 
 void Submarine::setUnderwaterTime(long long under)

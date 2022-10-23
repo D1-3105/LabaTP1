@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Keeper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SailBoat.cpp" />
     <ClCompile Include="Ship.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="xmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Keeper.h" />
     <ClInclude Include="SailBoat.h" />
     <ClInclude Include="ShipTypes.h" />
     <ClInclude Include="SpeedBoat.h" />

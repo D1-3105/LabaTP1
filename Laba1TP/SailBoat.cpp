@@ -46,6 +46,13 @@ void SailBoat::setWarmachine(bool wm)
 	war_machine = wm;
 }
 
+bool SailBoat::isWritable()
+{
+	if(velocity == -1 or not Ship::isWritable())
+		return false;
+	return true;
+}
+
 bool SailBoat::getWarmachine()
 {
 	return war_machine;

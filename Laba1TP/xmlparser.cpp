@@ -102,12 +102,13 @@ xml::tag xml::XMLReader::readCurrentTag(std::string level)
 	// entire input matched = 0 group
 	// tag name = 1 group
 	// attributes = 2 group  :    crew="22" len="230.00"
-	std::regex multiple_tag_regex("<\\w+(?:\\s+\\w+=\".*\")*\\s*>(?:.*)<\/\\w+>|<\\w+(?:\\s+\\w+=\".*\")*\/>"); // base_tag_regex+advanced_tag_regex
+	std::regex multiple_tag_regex("<\\w+(?:\\s+\\w+=\".*\")*\\s*>(?:.*)<\/\\w+>|<\\w+(?:\\s+\\w+=\".*\")*\/>", std::regex_constants::icase); // base_tag_regex+advanced_tag_regex
 	//
 	xml::tag level_deserialized;
 	//
 	std::smatch sm_tags;
 	try {
+		auto f = std::regex_constants::icase;
 		for (std::sregex_iterator i = std::sregex_iterator(level.begin(), level.end(), multiple_tag_regex);
 			i != std::sregex_iterator();
 			++i) { // iter through multiple regex conciedences

@@ -6,14 +6,34 @@ void Ship::setInputFilePath(std::string fp)
 	this->input_file_stream = xml::streamInit<std::ifstream>(fp);
 }
 
-void Ship::checkFileExtension(std::string extension, std::string& fp)
+bool Ship::checkFileExtension(std::string extension, std::string& fp, bool raise_exceptions)
 {
 	std::regex fileRegex("\\w+[\\\.](\\w+)");
 	std::smatch result;
 	std::regex_search(fp, result, fileRegex);
 	std::cout << result.str() << std::endl;
-	if (extension != result[1])
-		throw std::invalid_argument("INVALID EXTENSION");
+	if (extension != result[1]) {
+		if (raise_exceptions)
+			throw std::invalid_argument("INVALID EXTENSION");
+		else
+			return false;
+	}
+	return true;
+}
+
+std::string Ship::getOutputFilePath() {
+	return out_fp;
+}
+
+std::string Ship::getInputFilePath()
+{
+	return inp_fp;
+}
+
+bool Ship::isWritable() {
+	if (meterLength == -1 or crewCount == -1)
+		return false;
+	return true;
 }
 
 void Ship::readXMLInfo()

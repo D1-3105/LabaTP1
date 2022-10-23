@@ -22,7 +22,7 @@ private:
 	double velocity;
 
 public:
-	SailBoat() :Ship(), war_machine(false), velocity(0.0), type(SailBoat::Types::undefined) {
+	SailBoat() :Ship(), war_machine(false), velocity(-1), type(SailBoat::Types::undefined) {
 		std::cout << "THEN SAILBOAT CREATED BY DEFAULT CONSTRUCTOR" << std::endl;
 		tag = "sailboat";
 	};
@@ -43,4 +43,5 @@ public:
 	double getVelocity();
 	void setWarmachine(bool wm);
 	bool getWarmachine();
+	bool isWritable() override;
 };

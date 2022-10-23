@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "utils.h"
 #include "xmlparser.h"
 
 
@@ -27,7 +28,8 @@ private:
 	short crewCount;
 	virtual xml::tag makePrimaryTag(std::string input, xml::tag& xml_data, xml::XMLReader& reader);
 public:
-	Ship() : meterLength(0.0), crewCount(0), input_file_stream(nullptr), output_file_stream(nullptr), inp_fp(""), tag("ship") {
+
+	Ship() : meterLength(0), crewCount(0), input_file_stream(nullptr), output_file_stream(nullptr), inp_fp(""), tag("ship") {
 		std::cout << "SHIP INITIALIZED BY DEFAULT CONSTRUCTOR" << std::endl;
 	};
 	~Ship() {
@@ -38,6 +40,8 @@ public:
 		if (output_file_stream != nullptr and output_file_stream->is_open()) {
 			output_file_stream->close();
 		}
+		meterLength = 0;
+		crewCount = 0;
 		
 	};
 	Ship(const Ship& copyMe): tag("ship") {
@@ -50,11 +54,15 @@ public:
 		tag = copyMe.tag;
 	}
 
+	static bool checkFileExtension(std::string extension, std::string& fp, bool raise_exceptions = true);
+	virtual bool isWritable();
+
 	virtual void setInputFilePath(std::string fp) final;
+	std::string getInputFilePath();
 	virtual void setOutputFilePath(std::string fp) final;
+	std::string getOutputFilePath();
 	virtual void writeXMLInfo();
 	virtual void writeTXTInfo();
-	static void checkFileExtension(std::string extension, std::string& fp);
 	virtual void readXMLInfo();
 	virtual void readTXTInfo();
 	virtual void setCrewCount(short& crewCount);

@@ -21,6 +21,10 @@ public:
 
 	~Submarine() {
 		delete[] weapons;
+		width = 0;
+		underwater_time = 0;
+		max_velocity = 0;
+		weapons_count = 0;
 		std::cout << "FIRSTLY DELETED SUBMARINE THEN ";
 	}
 
@@ -33,6 +37,9 @@ public:
 		tag = "submarine";
 	};
 
+	bool isWritable() override;
+	void setWidth(double w);
+	double getWidth();
 	void setUnderwaterTime(long long under);
 	long long getUnderwaterTime();
 	double getMaxVelocity();
